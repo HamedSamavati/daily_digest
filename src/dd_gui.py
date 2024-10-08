@@ -4,8 +4,9 @@ from tkinter import ttk
 from dd_scheduler import DailyDigestScheduler
 from dd_email import DailyDigestEmail
 
+
 class DailyDigestGUI:
-    FONT = ('Arial',11, 'bold')
+    FONT = ('Arial', 11, 'bold')
     HEADER_FONT = ('Arial', 13, 'bold')
 
     def __init__(self):
@@ -22,14 +23,13 @@ class DailyDigestGUI:
         self.__sender_email_var = StringVar()
         self.__sender_password_var = StringVar()
 
-
         # To set initial values for variables
         self.__email = DailyDigestEmail()
 
         self.__add_recipient_var.set('')
         self.__recipient_list_var.set(self.__email.recipients)
 
-        self.__hour_var.set('07')   # default time to send email
+        self.__hour_var.set('07')  # default time to send email
         self.__minute_var.set('30')
 
         self.quote_var.set(self.__email.content['quote']['include'])
@@ -43,7 +43,7 @@ class DailyDigestGUI:
 
         self.__scheduler = DailyDigestScheduler()
         self.__scheduler.start()
-        self.window.protocol('WM_DELETE_WINDOW',self.shutdown)
+        self.window.protocol('WM_DELETE_WINDOW', self.shutdown)
 
         ### digest content
 
@@ -67,20 +67,19 @@ class DailyDigestGUI:
         self.recipient_to_add = tkinter.Entry(width=40, textvariable=self.__add_recipient_var)
         self.recipient_to_add.grid(row=4, columnspan=2, padx=5, pady=5)
 
-        add_recipient_btn = tkinter.Button(text='add recipient', width=15, font=self.FONT ,bg='orange',
+        add_recipient_btn = tkinter.Button(text='add recipient', width=15, font=self.FONT, bg='orange',
                                            foreground='white', command=self.__add_recipient)
         add_recipient_btn.grid(row=5, columnspan=2, padx=5, pady=5)
 
         self.recipient_scrollbar = ttk.Scrollbar(self.window, orient=VERTICAL)
         self.recipient_scrollbar.grid(row=6, column=1, sticky=W)
-        self.recipients_list = tkinter.Listbox(self.window, width=35, height=5, listvariable= self.__recipient_list_var,
-                                       selectmode='multiple')
-        self.recipients_list.configure(yscrollcommand = self.recipient_scrollbar.set)
+        self.recipients_list = tkinter.Listbox(self.window, width=35, height=5, listvariable=self.__recipient_list_var,
+                                               selectmode='multiple')
+        self.recipients_list.configure(yscrollcommand=self.recipient_scrollbar.set)
         self.recipient_scrollbar.config(command=self.recipients_list.yview)
         self.recipients_list.grid(row=6, column=0, sticky=E, pady=8)
 
-
-        remove_recipients_btn = tkinter.Button(text="Remove Selected", width=15, bg= 'orange', font=self.FONT,
+        remove_recipients_btn = tkinter.Button(text="Remove Selected", width=15, bg='orange', font=self.FONT,
                                                foreground='white', command=lambda: self.remove_selected(self.recipients_list.curselection()))
         remove_recipients_btn.grid(row=7, columnspan=2, padx=5)
 
@@ -100,7 +99,7 @@ class DailyDigestGUI:
         sender_credentials = Label(text='Sender Credentials:', font=self.HEADER_FONT, pady=10)
         sender_credentials.grid(row=10, columnspan=2, padx=5, pady=5)
 
-        email= Label(text='Email: ')
+        email = Label(text='Email: ')
         email.grid(row=11, column=0, sticky='E', padx=5, pady=5)
 
         email_entry = Entry(width=33, textvariable=self.__sender_email_var)
@@ -109,19 +108,20 @@ class DailyDigestGUI:
         password = Label(text='Password: ')
         password.grid(row=12, column=0, sticky='E', padx=5, pady=5)
 
-        password_entry= Entry(width=33, textvariable=self.__sender_password_var, show='*')
+        password_entry = Entry(width=33, textvariable=self.__sender_password_var, show='*')
         password_entry.grid(row=12, column=1, padx=5, pady=5)
 
         #### update settings
 
-        update_settings_btn = Button(text='Update Settings', width=15, bg='green', font=self.FONT, foreground='white', command=self.update_settings)
+        update_settings_btn = Button(text='Update Settings', width=15, bg='green', font=self.FONT, foreground='white',
+                                     command=self.update_settings)
         update_settings_btn.grid(row=13, column=0, padx=5, pady=5)
 
-        manual_send_btn = Button(text='Manual Send', width=15, bg='green', font=self.FONT, foreground='white', command=self.manual_send)
+        manual_send_btn = Button(text='Manual Send', width=15, bg='green', font=self.FONT, foreground='white',
+                                 command=self.manual_send)
         manual_send_btn.grid(row=13, column=1, padx=5, pady=5)
 
         self.window.mainloop()
-
 
         # Functionalities to assign to the buttons
 
@@ -136,25 +136,24 @@ class DailyDigestGUI:
                 self.__recipient_list_var.set([new_recipient])
             self.__add_recipient_var.set('')
 
-    def remove_selected(self, selection):      # to remove the selected recipients from recipients' list
+    def remove_selected(self, selection):  # to remove the selected recipients from recipients' list
         recipients_list = list(self.__recipient_list_var.get())
         for index in reversed(selection):
-             recipients_list.pop(index)
+            recipients_list.pop(index)
         self.__recipient_list_var.set(recipients_list)
 
-
-    def manual_send(self):          # to build and send an email
+    def manual_send(self):  # to build and send an email
         print('manually sending an email ... ')
         self.__email.send_email()
 
-    def update_settings(self):      # to update values
+    def update_settings(self):  # to update values
         print("Updating the settings ...")
         self.__email.recipients = list(self.__recipient_list_var.get())
         self.__email.content['wikipedia']['include'] = self.wikipedia_var.get()
         self.__email.content['weather']['include'] = self.weather_var.get()
         self.__email.content['quote']['include'] = self.quote_var.get()
         self.__email.credentials = {'user': self.__sender_email_var.get(),
-                                    'password': self.__sender_password_var.get() }
+                                    'password': self.__sender_password_var.get()}
         self.__scheduler.schedule_daily(int(self.__hour_var.get()), int(self.__minute_var.get()),
                                         self.__email.send_email)
 

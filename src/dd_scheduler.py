@@ -9,11 +9,7 @@ class DailyDigestScheduler(threading.Thread):
         super().__init__()
         self.__stop_running = threading.Event()
 
-    """
-    schedule a task to repeat at the same time everyday.
-    """
-
-    def schedule_daily(self, hour, minute, job):
+    def schedule_daily(self, hour, minute, job):    # schedule a task to repeat at the same time everyday.
         """     start schedular as a background thread.     """
         schedule.clear()  # clear existing schedule tasks
         schedule.every().day.at(f'{hour:02d}:{minute:02d}').do(job)

@@ -4,28 +4,28 @@ import dd_content
 import smtplib
 from email.message import EmailMessage
 
+
 class DailyDigestEmail:
 
     def __init__(self):
         self.content = {
-        'quote': { 'include': True, 'content': dd_content.get_random_quote()},
-        'weather': { 'include': True, 'content': dd_content.get_weather_forecast()},
-        'wikipedia': { 'include': True, 'content': dd_content.get_wikipedia_article()} }
+        'quote': {'include': True, 'content': dd_content.get_random_quote()},
+        'weather': {'include': True, 'content': dd_content.get_weather_forecast()},
+        'wikipedia': {'include': True, 'content': dd_content.get_wikipedia_article()} }
 
         self.recipients = ["hamedsamavaty@gmail.com"]
         self.credentials = {'user': "hamedsamavatipython@gmail.com",
-                            'password':"XXXXX"}
+                            'password': "XXXXX"}
 
     def send_email(self):
         msg = EmailMessage()
-        msg['Subject']= f'Daily Digest - {datetime.date.today().strftime("%d %b %Y")}'
-        msg['From']= self.credentials['user']
-        msg['To']= self.recipients
+        msg['Subject'] = f'Daily Digest - {datetime.date.today().strftime("%d %b %Y")}'
+        msg['From'] = self.credentials['user']
+        msg['To'] = self.recipients
 
         msg_body = self.format_message()
         msg.set_content(msg_body['plaintext'])
         msg.add_alternative(msg_body['html'], subtype='html')
-
 
         connection = smtplib.SMTP("smtp.gmail.com", 587)
         connection.starttls()
@@ -101,7 +101,7 @@ class DailyDigestEmail:
 
 
 if __name__ == '__main__':
-    print("Tesing generating of the text and html ...")
+    print("Testing generating of the text and html ...")
 
     email = DailyDigestEmail()
     message = email.format_message()
@@ -115,6 +115,5 @@ if __name__ == '__main__':
         file.write(message["html"])
 
     print("Testing the send_email() ...")
-    # dd_email = DailyDigestEmail()
     email.send_email()
 
