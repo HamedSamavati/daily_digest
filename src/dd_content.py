@@ -22,7 +22,7 @@ def get_random_quote(quotes_file="quotes.csv"):
 
 def get_weather_forecast(coords = {"lat":50.445210, "long":-104.618896}):
     try:
-        open_weather_api_key = "937d2144b1140d5f39c606c659f5605b"
+        open_weather_api_key = "XXXXX"
         url = f"https://api.openweathermap.org/data/2.5/forecast?lat={coords["lat"]}&lon={coords["long"]}&appid={open_weather_api_key}&units=metric"
         data = json.load(request.urlopen(url))
 

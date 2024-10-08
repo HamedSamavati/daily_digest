@@ -12,9 +12,9 @@ class DailyDigestEmail:
         'weather': { 'include': True, 'content': dd_content.get_weather_forecast()},
         'wikipedia': { 'include': True, 'content': dd_content.get_wikipedia_article()} }
 
-        self.recipients = ["hamedsamavaty@gmail.com", "royasohani1988@gmail.com"]
+        self.recipients = ["hamedsamavaty@gmail.com"]
         self.credentials = {'user': "hamedsamavatipython@gmail.com",
-                            'password':"avewbjmqaoildbnf"}
+                            'password':"XXXXX"}
 
     def send_email(self):
         msg = EmailMessage()
