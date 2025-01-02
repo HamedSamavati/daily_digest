@@ -25,6 +25,7 @@ pip install -r requirements.txt
 python dd_gui.py
 2. Configure the email settings, including recipients and content preferences.
 3. Set the schedule for the daily digest email.
+4. the main consideration here is to generate and use your own api_key from openweathermap.org inside the dd_content.py and also you need to enter you recipents email addresses and your own email credentials into dd_email.py
 
 ## Contributing
 If you’d like to contribute to this project, please fork the repository and submit a pull request with your changes.
